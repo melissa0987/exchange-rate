@@ -1,0 +1,84 @@
+<!--/*Melissa Louise Bangloy*/-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title> Currency Exchange Live Calculator</title>
+        <!--css stylesheet-->
+        <link rel="stylesheet" href="styles/index.css">
+        <!--javascript-->
+        <script src="js/index.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1> Currency Exchange Live Calculator</h1>
+             <h3>420-320 Assignment 2 </h3>
+        </header>
+
+        <!--main section that has 2 sections-->
+        <section id ="main">
+            <!--1st part of main section-->
+            <section id="form_section">
+                <section id="fieldset_wrapper">
+                    <fieldset>
+                        <legend> Fill In All Required Fields</legend>
+                        <form method="GET" action="#" id="add1" novalidate>
+                            <!--from_currency-->
+                            <div class="container">
+                                <legend for="from_currency">Base Currency</legend>
+                                <select name="from_currency" id="from_currency">
+                                </select>
+                            </div>
+                            <!--to_currency-->
+                            <div class="container">
+                                <legend for="to_currency">To Currency:</legend>
+                                <select name="to_currency" id="to_currency">
+                                </select>
+                            </div>
+                            <!--amount-->
+                            <div class="container">
+                                <legend for="amount"> Amount: </legend>
+                                <input id="amount" name="amount" type="number" min=1  value=1>
+                            </div>
+                        </form>
+
+                        <!--buttons-->
+                        <div id="button_wrap">
+                            <button type="button" id="convert" class="buttons"> Convert</button>
+                            <button type="button" id="show" class="buttons"> Show History</button>
+                            <button type="button" id="clear" class="buttons"> Clear History</button>
+                        </div>
+                    </fieldset>
+                </section>
+            </section>
+
+            <!--2nd part of main-->
+            <section id="table_list">
+                <section id="table_wrap">
+                    <section id="table_scroll">
+                        <table id="table">
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Rate</th>
+                                    <th>Amount</th>
+                                    <th>Payment</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </section>
+                </section>    
+            </section>
+        </section>
+
+        <footer>
+            <h3>Melissa Louise Bangloy 1438659 section 3 copyright Fall 2022</h3>
+        </footer>
+    </body>
+</html>

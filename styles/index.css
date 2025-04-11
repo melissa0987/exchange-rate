@@ -1,0 +1,175 @@
+/*Melissa Louise Bangloy*/
+*{
+    margin: 0px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    flex: 10;
+    background-color: gainsboro;
+    width: 90%;
+    margin: auto;
+}
+header, footer{
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    border: 1px grey solid;
+    border-radius: 25px;
+    text-align: center;
+    flex: 1;
+    font-size: 15px;
+    justify-content: center;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+#main{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    flex: 8;
+    justify-content: center;
+    margin-bottom: 10px;
+    max-width: 100%;
+    border-radius: 25px;
+    border: 10px black solid;
+}
+#form_section, #table_list{
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    background-color: gainsboro;
+    border-radius: 25px;
+    width: 98%;
+    max-width: 100%;
+    margin: 5px auto 5px auto;
+}
+#fieldset_wrapper{
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+    justify-content: center;
+    flex: 4;
+    width: 95%;
+    max-width: 100%;
+    margin: 10px auto 10px auto;
+}
+fieldset{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 100%;
+    margin: auto;
+    flex: 4;
+    justify-content: space-around;
+}
+fieldset legend {
+    color: firebrick;
+    font-size: 25px;
+    background-color: whitesmoke ;
+    max-width: 100%;
+}
+form, #button_wrap{
+    display: flex;
+    width: 98%;
+    max-width: 100%;
+    flex: 1;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid grey;
+    margin: 10px auto 10px auto;
+    border-radius: 25px;
+}
+.container{
+    display: flex;
+    flex: 1;
+    padding: 2px;
+    background-color: whitesmoke;
+    margin-left: 20px;
+    width: 98%;
+    max-width: 100%;
+    padding: 5px;
+    border-radius: 20px;
+    justify-content: center;
+}
+.container legend{
+    color: black;
+    text-align: right;
+    font-size: 15px;
+    font-weight: bold;
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+}
+input, select{
+    flex: 2;
+    font-size: 15px;
+    height: 60px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 100%;
+}
+.buttons{
+    width: 150px;
+    font-size: 15px;
+    background-color: rgb(36, 36, 221);
+    color: white;
+    border-radius: 15px;
+    max-width: 100%;
+    padding: 10px;
+    height: 50px;
+}
+.buttons:hover{
+    background-color: rgb(111, 171, 250);
+    color: black;
+}
+
+/* 2n part of main */
+#table_list{
+    background-color: rgb(64, 118, 90);
+}
+#table_wrap{
+    flex: 4;
+    border-radius: 25px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+#table_scroll{
+    max-height: 350px;
+	overflow: auto;
+}
+table{
+    padding: 2px;
+	background-color: rgb(255, 255, 255);
+    width: 90%;
+    max-width: 100%;
+    margin: 10px auto 10px auto;
+    text-align: center;
+    font-size: 15px;
+}
+tr,th, td{
+	border: 1px solid black;
+	margin: 3px;
+	padding: 3px;
+	max-width: 100%;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: rgb(159, 169, 179);
+	filter: grayscale(80%);
+}
+
+thead{
+	background-color: rgb(43, 61, 43);
+	color: white;
+    font-size: 15px;
+    margin: 2px;
+	padding: 2px;
+}
