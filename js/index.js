@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let urlObject = {
         mainURL: "http://api.exchangerate.host/convert?access_key=49ef384fdb7f2da92dd926f2ea93b7a3",
         // mainURL: "https://api.exchangerate.host/convert",
+	if(mainURL === null){
+		alert("need a valid API Access Key");
+	}
         fromQry:   from_currency.value,
         toQry:     to_currency.value,
         amountQry: amount.value, 
