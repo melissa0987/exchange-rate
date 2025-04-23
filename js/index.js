@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    //function that gets the results 
+    //function that gets the results
     // console.log(JSON.stringify(urlObject));
     function getResult(response) {
         let from = urlObject.fromQry;
@@ -34,16 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let amountValue = parseFloat(urlObject.amountQry) || 1;
         let foundRate = null;
     
+        console.log("Looking for exchange rate:");
+        console.log("From:", from, "To:", to);
+    
         for (let rate of response) {
+            console.log("Checking rate:", rate.FromCurrency?.Value, "→", rate.ToCurrency?.Value, "Rate:", rate.Rate);
             if (rate.FromCurrency?.Value === from && rate.ToCurrency?.Value === to) {
                 foundRate = parseFloat(rate.Rate);
                 break;
             }
-        }
-    
-        if (foundRate === null) {
-            alert("Exchange rate not found for selected currencies.");
-            return;
         }
     
         let resultFromFetch = {
@@ -84,17 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //this function populates the necessary option for from/to currency
     function displayOptions(response){
-        /*
-        "CAD": {
-            "symbol": "CA$",
-            "name": "Canadian Dollar",
-            "symbol_native": "$",
-            "decimal_digits": 2,
-            "rounding": 0,
-            "code": "CAD",
-            "name_plural": "Canadian dollars"
-	        },
-        */
+        
        let currency =  Object.keys(response);
       
         //console.log("Json currency option " + currency.length);
@@ -173,20 +162,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let convertAccessedDate = ""; //stores the date when the result was accessed
 
     //getting today's date for tableDate
-    function getLogDayTime(){
+    function getLogDayTime() {
         let date = new Date();
-        let todayDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
-        let time = displayCheck(date.getHours()) + "-" +  displayCheck(date.getMinutes()) + "-" + displayCheck(date.getSeconds());
-
-        let todayDateTime = todayDate + "__" + time;
-        //this method checks the time. if the number is below 10, it will add 0 before the time/minute for readability
-        function displayCheck(i){
-            if (i < 10){
-                i = "0" + i;
-            }
-            return i;
+        let todayDate = displayCheck(date.getFullYear()) + "-"  //year
+                        + displayCheck(date.getMonth() + 1) + "-"  //month
+                        + displayCheck(date.getDate()); //day
+        let time = displayCheck(date.getHours()) + ":" 
+                + displayCheck(date.getMinutes()) + ":" 
+                + displayCheck(date.getSeconds());
+    
+        return todayDate + "_" + time;
+    
+        function displayCheck(i) {
+            return i < 10 ? "0" + i : i;
         }
-        return todayDateTime;
     }; //getLogDayTime
 
     //When convert button is clicked 
