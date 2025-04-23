@@ -38,7 +38,7 @@ footer {
 #main {
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: rgb(19, 18, 18);
   border-radius: 1.5em;
   border: 0.6em solid black;
   padding: 1em;
@@ -116,10 +116,9 @@ select {
 /* Button Styling */
 #button_wrap {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   gap: 1em;
-  margin-top: 1em;
-  align-items: center;
+  margin-top: 1em; 
 }
 
 .buttons {
@@ -131,8 +130,7 @@ select {
   border: none;
   cursor: pointer;
   width: 100%;
-  max-width: 200px;
-  text-align: center;
+  max-width: 200px; 
 }
 
 .buttons:hover {
@@ -206,7 +204,7 @@ tbody tr:nth-child(even) {
 
 @media (min-width: 900px) {
   #main {
-    flex-direction: row;
+    flex-direction: column;
     gap: 1em;
   }
 
@@ -217,9 +215,5 @@ tbody tr:nth-child(even) {
 
   form {
     flex-wrap: nowrap;
-  }
-
-  #button_wrap {
-    justify-content: flex-end;
   }
 }
