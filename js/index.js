@@ -13,37 +13,52 @@ document.addEventListener("DOMContentLoaded", function () {
     let clearHistory = document.getElementById("clear");
     
 
-    //let endpoint = 'convert';
-    // let access_key = '49ef384fdb7f2da92dd926f2ea93b7a3';
-
-    //object 
     let urlObject = {
-        mainURL: "http://api.exchangerate.host/convert?access_key=49ef384fdb7f2da92dd926f2ea93b7a3",
-        // mainURL: "https://api.exchangerate.host/convert",
-	if(mainURL === null){
-		alert("need a valid API Access Key");
-	}
-        fromQry:   from_currency.value,
-        toQry:     to_currency.value,
-        amountQry: amount.value, 
-        absoluteURL: function( ){
-            this.fromQry = from_currency.value;
-            this.toQry = to_currency.value;
-            this.amountQry = amount.value;
-
-            //returns the query string required to retrieve info from the web API
-            //https://api.exchangerate.host/convert?from=USD&to=CAD&amount=35 
-            /*
-            mainURL: "https://api.exchangerate.host/convert" + ?
-            fromQry : from=USD + &
-            toQry: to=CAD + & 
-            amountQry: amount=35 
-            */
-            return this.mainURL+"?from="+this.fromQry+"&to="+this.toQry+"&amount="+this.amountQry ;
-            // return this.mainURL+'?access_key=' + access_key + "?from="+this.fromQry+"&to="+this.toQry+"&amount="+this.amountQry ;
+        mainURL: "https://bcd-api-dca-ipa.cbsa-asfc.cloud-nuage.canada.ca/exchange-rate-lambda/exchange-rates",
+        fromQry: "",
+        toQry: "",
+        amountQry: "",
+        absoluteURL: function () {
+            this.fromQry = from_currency.value.toUpperCase();
+            this.toQry = to_currency.value.toUpperCase();
+            this.amountQry = amount.value || 1;
+            return this.mainURL; 
         }
+    };
+
+    //function that gets the results 
+    // console.log(JSON.stringify(urlObject));
+    function getResult(response) {
+        let from = urlObject.fromQry;
+        let to = urlObject.toQry;
+        let amountValue = parseFloat(urlObject.amountQry) || 1;
+        let foundRate = null;
+    
+        for (let rate of response) {
+            if (rate.FromCurrency?.Value === from && rate.ToCurrency?.Value === to) {
+                foundRate = parseFloat(rate.Rate);
+                break;
+            }
+        }
+    
+        if (foundRate === null) {
+            alert("Exchange rate not found for selected currencies.");
+            return;
+        }
+    
+        let resultFromFetch = {
+            from: from,
+            to: to,
+            rate: foundRate,
+            amount: amountValue,
+            payment: (foundRate * amountValue).toFixed(2),
+            date: convertAccessedDate
+        };
+    
+        resultsObj.push(resultFromFetch);
+        localStorage.setItem("resultsObj", JSON.stringify(resultsObj));
+        displayResultToTable(resultsObj);
     }
-    //console.log(JSON.stringify(urlObject));
     
 
     //fetches the from and To currency options from the json file
@@ -175,32 +190,34 @@ document.addEventListener("DOMContentLoaded", function () {
     }; //getLogDayTime
 
     //When convert button is clicked 
-    convert.addEventListener("click", function(){
-        //fetching urlObject absoluteURL
+    convert.addEventListener("click", function () {
         let link = urlObject.absoluteURL();
-        console.log("link " + link);
-        fetch( link )
-            .then( function(response){
-                if(response.ok){
-                    return response.json();
-                }else{
-                    return "error";
+        console.log("Fetching from:", link);
+    
+        fetch(link)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("API Response:", data);
+                if (data.ForeignExchangeRates && Array.isArray(data.ForeignExchangeRates)) {
+                    getResult(data.ForeignExchangeRates);
+                } else {
+                    alert("Exchange rates not available or unexpected format.");
                 }
             })
-            .then(function(response){
-                if (response != "error"){
-                    getResult(response); //function that will get the result
-                }
-                
-                else{
-                    alert(`${response}: Not available at the moment`);
-                }
-            })
-        //console.log(urlObject.absoluteURL())
-        convertAccessedDate =  getLogDayTime();
-        //console.log(convertAccessedDate);
-
+            .catch(error => {
+                console.error("Fetch error:", error);
+                alert("Currency conversion service is temporarily unavailable.");
+            });
+    
+        convertAccessedDate = getLogDayTime();
     }, false);
+    
+    
 
     //object for localStorage 
     let resultsObj = []; //array of object where the results are will be stored 
@@ -209,46 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("resultsObj", JSON.stringify(resultsObj));
         }
     //console.log("FV" + JSON.stringify(resultsObj));
-
-
-    //function that will get the result
-    function getResult(response){
-        // SAMPLE SEARCH RESULT
-        /*
-        {
-        "from":         "BWP",
-        "to":           "SGD","amount":500},
-        "info":         {"rate":0.106398},
-        "historical":   false,
-        "date":            "2022-11-19",
-        "result":       53.198977}
-         */
-
-        //object that stores the search result from fetching the result on the web api
-        let resultFromFetch = {
-            from: response.query.from, 
-            to: response.query.to,
-            rate: response.info.rate,
-            amount: response.query.amount, 
-            payment: response.result.toFixed(2),
-            date: convertAccessedDate
-        };
-        //console.log(JSON.stringify(resultFromFetch));
-
-        //adding the resultFromFetch to the localStorage
-        resultsObj.push(resultFromFetch);
-        //console.log("resultsObj " + JSON.stringify(resultsObj));
-        displayResultToTable(resultsObj); //displays the result to the table
-        //console.log("rsfg " + (Object.values(resultsObj[0])));
-        if(localStorageResult.length > 0){
-           // localStorageResult.push(resultFromFetch);
-
-            localStorage.setItem("resultsObj", JSON.stringify(localStorageResult));
-        }else{
-            localStorage.setItem("resultsObj", JSON.stringify(resultsObj));
-        }
-        //console.log("localStorageResult " + JSON.stringify(localStorageResult[0]));
-    }//getResult method
 
     //build the table with the fetched results
     let tbody = document.getElementsByTagName("tbody");
